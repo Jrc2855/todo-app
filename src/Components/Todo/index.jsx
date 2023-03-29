@@ -1,10 +1,12 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import useForm from '../../hooks/form';
 
 import { v4 as uuid } from 'uuid';
+import { SettingsContext } from './Context/Settings';
+import List from '../List';
 
 const Todo = () => {
-
+  const { displayCount, showComplete, sort } = useContext(SettingsContext);
   const [defaultValues] = useState({
     difficulty: 4,
   });
@@ -28,7 +30,7 @@ const Todo = () => {
 
     const items = list.map( item => {
       if ( item.id === id ) {
-        item.complete = ! item.complete;
+        item.complete = !item.complete;
       }
       return item;
     });
@@ -76,15 +78,7 @@ const Todo = () => {
         </label>
       </form>
 
-      {list.map(item => (
-        <div key={item.id}>
-          <p>{item.text}</p>
-          <p><small>Assigned to: {item.assignee}</small></p>
-          <p><small>Difficulty: {item.difficulty}</small></p>
-          <div onClick={() => toggleComplete(item.id)}>Complete: {item.complete.toString()}</div>
-          <hr />
-        </div>
-      ))}
+      <List list={list} toggleComplete={toggleComplete}/>
 
     </>
   );
