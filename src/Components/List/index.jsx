@@ -1,8 +1,9 @@
 import { useContext, useState } from "react"
-import { SettingsContext } from "../Todo/Context/Settings"
-import { Button, Pagination } from "@mantine/core";
+import { SettingsContext } from "../../Context/Settings";
+import { Button, CloseButton, Pagination } from "@mantine/core";
+import Auth from '../Auth';
 
-const List = ({ list, toggleComplete }) => {
+const List = ({ list, toggleComplete, deleteItem }) => {
   const { displayCount, showComplete, sort } = useContext(SettingsContext);
   const [activePage, setPage] = useState(1);
 
@@ -15,16 +16,25 @@ const List = ({ list, toggleComplete }) => {
   return (
     <>
 
-    {displayList.map(item => (
-      <div key={item.id}>
-        <p>{item.text}</p>
-        <p><small>Assigned to: {item.assignee}</small></p>
-        <p><small>Difficulty: {item.difficulty}</small></p>
-        <Button onClick={() => toggleComplete(item.id)}>Complete: {item.complete.toString()}</Button>
-        <hr />
-      </div>
-    ))}
-    <Pagination value={activePage} onChange={setPage} total={pageCount} />
+      {displayList.map(item => (
+        <div key={item.id}>
+          <p>{item.text}</p>
+          <p><small>Assigned to: {item.assignee}</small></p>
+          <p><small>Difficulty: {item.difficulty}</small></p>
+          <Button onClick={() => toggleComplete(item.id)}>Complete: {item.complete.toString()}</Button>
+          <hr />
+
+          <Auth capability='delete'>
+            <CloseButton
+              title='Close Item'
+              onClick={() => deleteItem(item._id)}
+            >
+              DELETE BUTTON
+            </CloseButton>
+          </Auth>
+        </div>
+      ))}
+      <Pagination value={activePage} onChange={setPage} total={pageCount} />
     </>
   )
 };

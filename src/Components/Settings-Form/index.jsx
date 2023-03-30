@@ -1,6 +1,6 @@
 import { Button, NumberInput, Switch, Text, TextInput } from "@mantine/core";
 import { useContext, useState } from "react";
-import { SettingsContext } from "../Todo/Context/Settings";
+import { SettingsContext } from "../../Context/Settings";
 
 const SettingsForm = () => {
   const [show, setShow] = useState(false);

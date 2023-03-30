@@ -8,7 +8,7 @@ const useStyles = createStyles((theme) => ({
     backgroundColor: theme.colors.green[8],
     color: theme.colors.gray[0],
     height: '100%',
-    width: '100%'
+    padding: theme.spacing.md,
   }
 }))
 
@@ -32,7 +32,7 @@ const HeaderComponent = () => {
           <Link className={classes.link} to="/" default>Home</Link>
           <Link className={classes.link} to="/settings">Settings</Link>
         </Group>
-        <Group>
+        <Group position="right">
           <form onSubmit={handleSubmit}>
             <label>
               username:

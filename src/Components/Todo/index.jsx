@@ -2,8 +2,9 @@ import React, { useContext, useEffect, useState } from 'react';
 import useForm from '../../hooks/form';
 
 import { v4 as uuid } from 'uuid';
-import { SettingsContext } from './Context/Settings';
+import { SettingsContext } from '../../Context/Settings';
 import List from '../List';
+import Auth from '../Auth';
 
 const Todo = () => {
   const { displayCount, showComplete, sort } = useContext(SettingsContext);
@@ -22,14 +23,14 @@ const Todo = () => {
   }
 
   function deleteItem(id) {
-    const items = list.filter( item => item.id !== id );
+    const items = list.filter(item => item.id !== id);
     setList(items);
   }
 
   function toggleComplete(id) {
 
-    const items = list.map( item => {
-      if ( item.id === id ) {
+    const items = list.map(item => {
+      if (item.id === id) {
         item.complete = !item.complete;
       }
       return item;
@@ -46,7 +47,7 @@ const Todo = () => {
     // linter will want 'incomplete' added to dependency array unnecessarily. 
     // disable code used to avoid linter warning 
     // eslint-disable-next-line react-hooks/exhaustive-deps 
-  }, [list]);  
+  }, [list]);
 
   return (
     <>
@@ -54,31 +55,37 @@ const Todo = () => {
         <h1 data-testid="todo-h1">To Do List: {incomplete} items pending</h1>
       </header>
 
-      <form onSubmit={handleSubmit}>
+      <Auth capability='create'>
 
-        <h2>Add To Do Item</h2>
+        <form onSubmit={handleSubmit}>
 
-        <label>
-          <span>To Do Item</span>
-          <input onChange={handleChange} name="text" type="text" placeholder="Item Details" />
-        </label>
+          <h2>Add To Do Item</h2>
 
-        <label>
-          <span>Assigned To</span>
-          <input onChange={handleChange} name="assignee" type="text" placeholder="Assignee Name" />
-        </label>
+          <label>
+            <span>To Do Item</span>
+            <input onChange={handleChange} name="text" type="text" placeholder="Item Details" />
+          </label>
 
-        <label>
-          <span>Difficulty</span>
-          <input onChange={handleChange} defaultValue={defaultValues.difficulty} type="range" min={1} max={5} name="Difficulty" />
-        </label>
+          <label>
+            <span>Assigned To</span>
+            <input onChange={handleChange} name="assignee" type="text" placeholder="Assignee Name" />
+          </label>
 
-        <label>
-          <button type="submit">Add Item</button>
-        </label>
-      </form>
+          <label>
+            <span>Difficulty</span>
+            <input onChange={handleChange} defaultValue={defaultValues.difficulty} type="range" min={1} max={5} name="Difficulty" />
+          </label>
 
-      <List list={list} toggleComplete={toggleComplete}/>
+          <label>
+            <button type="submit">Add Item</button>
+          </label>
+        </form>
+      </Auth>
+
+      <Auth capability='read'>
+
+      <List list={list} toggleComplete={toggleComplete} deleteItem={deleteItem} />
+      </Auth>
 
     </>
   );
