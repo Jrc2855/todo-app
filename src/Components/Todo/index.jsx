@@ -70,7 +70,7 @@ const Todo = () => {
 
         <label>
           <span>Difficulty</span>
-          <input onChange={handleChange} defaultValue={defaultValues.difficulty} type="range" min={1} max={5} name="difficulty" />
+          <input onChange={handleChange} defaultValue={defaultValues.difficulty} type="range" min={1} max={5} name="Difficulty" />
         </label>
 
         <label>
